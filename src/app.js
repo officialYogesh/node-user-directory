@@ -6,24 +6,15 @@ const userRouter = require("./Routes/users.routes");
 const authRouter = require("./Routes/auth.routes");
 
 const checkAuth = require("./Middleware/checkAuth.middleware");
-// const corsMiddleware = require("./Middleware/cors.middleware");
+const corsMiddleware = require("./Middleware/cors.middleware");
 const createTestUserData = require("../createUserData");
 
 const app = express();
 const dbURI = process.env.MONGO_DB_URI;
 
-// app.use(cors(corsOptions))
-
-// app.use(function (req, res, next) {
-//   console.log("req.headers", req.headers);
-//   res.header("Access-Control-Allow-Methods", "POST");
-//   res.header("access-control-allow-origin", "www.google.com");
-//   next();
-// });
+app.use(corsMiddleware);
 
 app.use(express.json());
-// app.options("*", corsMiddleware);
-// app.use(corsMiddleware);
 
 mongoose
   .connect(dbURI, { dbName: process.env.DB_NAME })
