@@ -44,7 +44,9 @@ const addNewUsers = async (req, res, next) => {
   try {
     const { name, address, dob, state } = req.body;
     if (name && address && dob && state) {
-      const lastUser = await User.findOne({}, { id: 1, _id: 0 }).sort({ id: -1 });
+      const lastUser = await User.findOne({}, { id: 1, _id: 0 }).sort({
+        id: -1,
+      });
       const id = lastUser ? lastUser.id + 1 : 1;
       const user = await User.create({
         id,

@@ -8,7 +8,13 @@ const signJwt = async (username, hashedPassword) => {
 };
 
 const verifyJwt = async (token) => {
-  return await jwt.verify(token, process.env.JWT_KEY);
+  try {
+    const user = await jwt.verify(token, process.env.JWT_KEY);
+    return user;
+  } catch (error) {
+    console.log("error", error.message);
+    return { error };
+  }
 };
 
 module.exports = {

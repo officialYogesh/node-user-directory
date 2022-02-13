@@ -14,13 +14,9 @@ const checkAuth = async (req, res, next) => {
     });
   }
 
-  try {
-    const user = verifyJwt(token);
-    req.user = user;
-    next();
-  } catch (error) {
-    console.log("error", error.message);
-    res.status(400).json({
+  const { error, user } = await verifyJwt(token);
+  if (error) {
+    return res.status(400).json({
       errors: [
         {
           msg: "Invalid Token",
@@ -28,6 +24,8 @@ const checkAuth = async (req, res, next) => {
       ],
     });
   }
+  req.user = user;
+  next();
 };
 
 module.exports = checkAuth;
