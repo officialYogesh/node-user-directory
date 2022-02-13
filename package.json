@@ -2,7 +2,7 @@
   "name": "user-directory",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "jest",
     "startDev": "nodemon src/app.js"
