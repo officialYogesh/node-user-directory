@@ -1,5 +1,5 @@
-const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { signJwt } = require("../utils/jwt.utils");
 
 const doLogin = async (req, res, next) => {
   const username = "testUser";
@@ -7,15 +7,17 @@ const doLogin = async (req, res, next) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const token = await JWT.sign(
-    { username, hashedPassword },
-    process.env.JWT_KEY,
-    { expiresIn: 900 }
-  );
-
-  res.status(200).json({
-    token,
-  });
+  try {
+    const token = await signJwt(username, hashedPassword);
+    res.status(200).json({
+      token,
+    });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      message: "Something went wrong, please try again!",
+    });
+  }
 };
 
 module.exports = {

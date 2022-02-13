@@ -1,4 +1,4 @@
-const JWT = require("jsonwebtoken");
+const { verifyJwt } = require("../utils/jwt.utils");
 
 const checkAuth = async (req, res, next) => {
   const token = req.header("x-auth-token");
@@ -15,7 +15,7 @@ const checkAuth = async (req, res, next) => {
   }
 
   try {
-    const user = await JWT.verify(token, process.env.JWT_KEY);
+    const user = verifyJwt(token);
     req.user = user;
     next();
   } catch (error) {

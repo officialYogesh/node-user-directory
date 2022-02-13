@@ -53,7 +53,7 @@ const addNewUsers = async (req, res, next) => {
         dob,
         state,
       });
-      return res.status(200).json({
+      return res.status(201).json({
         user,
       });
     } else {

@@ -1,35 +1,13 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
+const createServer = require("./utils/server.utils");
+const connect = require("./utils/connect.utils");
 
-const userRouter = require("./Routes/users.routes");
-const authRouter = require("./Routes/auth.routes");
+const port = process.env.PORT || 3000;
 
-const checkAuth = require("./Middleware/checkAuth.middleware");
-const corsMiddleware = require("./Middleware/cors.middleware");
-const createTestUserData = require("../createUserData");
+const app = createServer();
 
-const app = express();
-const dbURI = process.env.MONGO_DB_URI;
-
-app.use(corsMiddleware);
-
-app.use(express.json());
-
-mongoose
-  .connect(dbURI, { dbName: process.env.DB_NAME })
-  .then(() => console.log("Database Connected"))
-  .catch((err) => console.log(err.message));
-
-createTestUserData();
-
-app.use("/auth", authRouter);
-app.use("/users", checkAuth, userRouter);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  res.status(404).json({
-    message: "No such route exists",
+connect().then(() => {
+  app.listen(port, async () => {
+    console.log(`App is running on port: ${port}`);
   });
 });
 
