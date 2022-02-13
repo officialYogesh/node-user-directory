@@ -1,14 +1,19 @@
-const createServer = require("./utils/server.utils");
-const connect = require("./utils/connect.utils");
+require("dotenv").config();
+const express = require("express");
 
-const port = process.env.PORT || 3000;
+const routes = require("./Routes/routes");
+const corsMiddleware = require("./Middleware/cors.middleware");
 
-const app = createServer();
+const createApp = () => {
+  const app = express();
 
-connect().then(() => {
-  app.listen(port, async () => {
-    console.log(`App is running on port: ${port}`);
-  });
-});
+  app.use(express.json());
 
-module.exports = app;
+  app.use(corsMiddleware);
+
+  routes(app);
+
+  return app;
+};
+
+module.exports = createApp;

@@ -1,10 +1,9 @@
 process.env.NODE_ENV = "test";
 
 const supertest = require("supertest");
+const createApp = require("../app");
 
-const createServer = require("../utils/server.utils");
-
-const app = createServer();
+const app = createApp();
 
 describe("auth", () => {
   describe("Do login", () => {

@@ -2,10 +2,11 @@ process.env.NODE_ENV = "test";
 
 const supertest = require("supertest");
 
+const createApp = require("../app");
 const connect = require("../utils/connect.utils");
-const createServer = require("../utils/server.utils");
 const { signJwt } = require("../utils/jwt.utils");
 const user = require("../Models/user");
+
 let token = "";
 
 const startTestDB = async () => {
@@ -13,7 +14,7 @@ const startTestDB = async () => {
 };
 startTestDB();
 
-const app = createServer();
+const app = createApp();
 
 const createToken = async () => {
   token = await signJwt();
